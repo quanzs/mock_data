@@ -8,16 +8,13 @@ function getDisance(lat1, lng1, lat2, lng2) { //lat为纬度, lng为经度, 一�
     var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
     return dis * 6378137;
 }
-// alert(  getDisance(39.91917,116.3896,39.91726,116.3940) );
-
-
 
 function makeRandomPos(lat, lng) {
 	lat = parseFloat(lat);
 	lng = parseFloat(lng);
-	var MAX_DISTANCE = 0.06;
+	var MAX_DISTANCE = 0.05;
 	var arr = [];
-	for(var i=0; i < 20;i++) {
+	for(var i=0; i < 30;i++) {
 		var latNew = lat + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var lngNew = lng + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var distance = getDisance(lat, lng, latNew, lngNew);
@@ -41,8 +38,8 @@ app.set("view engine","ejs");
 // 引入css静态资源
 app.use("/", express.static('public'));
 
-// 生成二维码
-app.get('/create_qrcode', function (req, res, next) {
+// 随机生成共享单车的数据
+app.get('/api/broken-bikes', function (req, res, next) {
 	var lat = req.query.lat;
 	var lng = req.query.lng;
 	if(lat == null || lng == null) {
