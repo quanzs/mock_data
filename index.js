@@ -6,7 +6,7 @@ function getDisance(lat1, lng1, lat2, lng2) { //lat为纬度, lng为经度, 一�
     var deltaLat = radLat1 - radLat2;
     var deltaLng = toRad(lng1) - toRad(lng2);
     var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
-    return dis * 6378137;
+    return Math.round(dis * 6378137);
 }
 
 function makeRandomPos(lat, lng) {
