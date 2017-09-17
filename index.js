@@ -9,6 +9,13 @@ function getDisance(lat1, lng1, lat2, lng2) { //lat为纬度, lng为经度, 一�
     return Math.round(dis * 6378137);
 }
 
+const ERROR_ARR = [
+	"车锁损坏",
+	"二维码破损",
+	"轮圈需要维修",
+	"其他"
+];
+
 function makeRandomPos(lat, lng) {
 	lat = parseFloat(lat);
 	lng = parseFloat(lng);
@@ -18,7 +25,13 @@ function makeRandomPos(lat, lng) {
 		var latNew = lat + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var lngNew = lng + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var distance = getDisance(lat, lng, latNew, lngNew);
-		arr.push({lat: latNew, lng: lngNew, distance: distance});	
+		arr.push({
+			lat: latNew, 
+			lng: lngNew, 
+			distance: distance,
+			id: "E00" + ("00000000" + parseInt(100000000*Math.random())).substr(-8),
+			detail: ERROR_ARR[Math.floor(Math.random()*4)]
+		});	
 	}
 	arr.sort(function(pre, next){
 		return pre.distance - next.distance;
