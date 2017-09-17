@@ -60,6 +60,7 @@ app.get('/api/broken-bikes', function (req, res, next) {
 		return;
 	}
 	var cars = makeRandomPos(lat, lng);
+	res.setHeader('Content-type', 'application/json');
 	res.send(JSON.stringify(cars));
 });
 
