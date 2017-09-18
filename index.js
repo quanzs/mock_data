@@ -64,6 +64,25 @@ app.get('/api/broken-bikes', function (req, res, next) {
 	res.send(JSON.stringify(cars));
 });
 
+// 随机生成共享单车的数据
+app.get('/api/repair', function (req, res, next) {
+	var id = req.query.id;
+	var method = req.query.method;
+	if(id == null) {
+		res.send(JSON.stringify({"err_message": "请输入车辆编号"}));
+		return;
+	}
+	if(method == null) {
+		res.send(JSON.stringify({"err_message": "请选择维修方法"}));
+		return;
+	}
+	res.setHeader('Content-type', 'application/json');
+	var result = {
+		"message": "维修完成。 车辆已经可以正常使用。"
+	};
+	res.send(JSON.stringify(result));
+});
+
 var server = http.listen(process.env.PORT || 8080, function () {
   var host = server.address().address;
   var port = server.address().port;
