@@ -55,7 +55,7 @@ app.use("/", express.static('public'));
 app.get('/api/broken-bikes', function (req, res, next) {
 	var lat = req.query.lat;
 	var lng = req.query.lng;
-	if(lat == null || lng == null) {
+	if(lat == null || lat == "" || lng == null || lng == "") {
 		res.send(JSON.stringify({"err_message": "请输入经纬度"}));
 		return;
 	}
@@ -68,11 +68,11 @@ app.get('/api/broken-bikes', function (req, res, next) {
 app.get('/api/repair', function (req, res, next) {
 	var id = req.query.id;
 	var method = req.query.method;
-	if(id == null) {
+	if(id == "" || id == null) {
 		res.send(JSON.stringify({"err_message": "请输入车辆编号"}));
 		return;
 	}
-	if(method == null) {
+	if(method == "" || method == null) {
 		res.send(JSON.stringify({"err_message": "请选择维修方法"}));
 		return;
 	}
