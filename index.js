@@ -15,13 +15,13 @@ const ERROR_ARR = [
 	"轮圈需要维修",
 	"其他"
 ];
-
+const BIKE_COUNT = 40;
 function makeRandomPos(lat, lng) {
 	lat = parseFloat(lat);
 	lng = parseFloat(lng);
 	var MAX_DISTANCE = 0.05;
 	var arr = [];
-	for(var i=0; i < 30;i++) {
+	for(var i=0; i < BIKE_COUNT;i++) {
 		var latNew = lat + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var lngNew = lng + (Math.random() > 0.5 ? -1 : 1)*Math.random()*MAX_DISTANCE;
 		var distance = getDisance(lat, lng, latNew, lngNew);
