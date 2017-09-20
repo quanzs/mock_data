@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.sha1.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		.input-group-addon {
+			min-width: 150px;
+		}
+	</style>
+</head>
+<body>
+<div style="padding: 100px 100px 10px;">
+    <div class="input-group">
+        <span class="input-group-addon">作者</span>
+        <input id="author_name" type="text" class="form-control" placeholder="多个作者请使用逗号分隔   例：张三，李四，王五">
+    </div>
+    <br>
+    <div class="input-group">
+        <span class="input-group-addon">github地址</span>
+        <input id="git_address" type="text" class="form-control" placeholder="请输入github地址">
+    </div>
+    <br>
+    <div class="input-group">
+        <span class="input-group-addon">已发布服务器地址</span>
+        <input id="url" type="text" class="form-control" placeholder="请输入服务器地址">
+    </div>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary btn-block" onclick="vote()">提交</button>
+</div>
+</body>
+<script type="text/javascript">
+
+
+	function vote() {
+		if($("#author_name").val() == "" || $("#url").val() == ""
+			 || $("#git_address").val() == "") {
+			alert("请输入所有的项目");
+			return;
+		}
+
+
+        var now = Date.now();
+        var appKey = $.sha1("A6931667122718" + "UZ" + "EA952344-061A-26E5-ED7C-FABA3E5C32C8" + "UZ" + now) + "." + now;
+		$.ajax({
+		  "url": "https://d.apicloud.com/mcm/api/a1710a",
+		  "cache": false,
+		  "headers": {
+		    "X-APICloud-AppId": "A6931667122718",
+		    "X-APICloud-AppKey": appKey
+		  },
+		  "data": {
+		    "author_name": $("#author_name").val().replace(/，/g, ","),
+		    "url": $("#url").val(),
+		    "git_address": $("#git_address").val()
+		  },
+		  "type": "POST"
+		}).success(function (data, status, header) {
+		  alert("非常感谢");
+		  location.href = "show_all_projects.html";
+		}).fail(function (header, status, errorThrown) {
+		  //fail body
+		  alert("保存失败");
+		  location.reload();
+		})
+		$("body").html('<div class="alert alert-success">数据保存中....</div>');
+	}
+</script>
+</html>

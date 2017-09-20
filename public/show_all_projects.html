@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.sha1.js"></script>
+	<script type="text/javascript" src="template-web.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		.input-group-addon {
+			min-width: 150px;
+		}
+		body {
+			padding: 20px 2%;
+		}
+	</style>
+</head>
+<body>
+	<a class="btn btn-primary" href="give_me_your_project.html">插入数据</a></td>
+	<br><br>
+	<div id="content_list">
+	    
+	</div>
+</body>
+<script id="tpl-list" type="text/html">
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+	      <th>作者</th>
+	      <th>github地址</th>
+	      <th>发布服务器地址</th>
+	      <th>操作</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		<% for(var i = 0; i < data.length; i++){ %>
+		    <tr>
+		      <td><%= data[i].author_name %></td>
+		      <td><%= data[i].git_address %></td>
+		      <td><%= data[i].url %></td>
+		      <td><button class="btn btn-primary" onclick="delete_address('<%= data[i].id %>')">删除</button></td>
+		    </tr>
+		<% } %>
+	  </tbody>
+	</table>
+</script>
+<script type="text/javascript">
+	function delete_address(did) {
+		if(!confirm("确定要删除这条数据么？")) {
+			return;
+		}
+		$("#content_list").html('<div class="alert alert-success">删除中....</div>');
+        var now = Date.now();
+        var appKey = $.sha1("A6931667122718" + "UZ" + "EA952344-061A-26E5-ED7C-FABA3E5C32C8" + "UZ" + now) + "." + now;
+		$.ajax({
+		  "url": "https://d.apicloud.com/mcm/api/a1710a/" + did,
+		  "cache": false,
+		  "headers": {
+		    "X-APICloud-AppId": "A6931667122718",
+		    "X-APICloud-AppKey": appKey
+		  },
+		  "data": {
+		    "_method": "DELETE"
+		  },
+		  "type": "POST"
+		}).success(function (data, status, header) {
+		  alert("删除成功");
+		  show_all();
+		}).fail(function (header, status, errorThrown) {
+		  alert("删除失败");
+		})
+	}
+
+
+	function show_all() {
+        var now = Date.now();
+        var appKey = $.sha1("A6931667122718" + "UZ" + "EA952344-061A-26E5-ED7C-FABA3E5C32C8" + "UZ" + now) + "." + now;
+        $("#content_list").html('<div class="alert alert-success">数据取得中....</div>');
+		$.ajax({
+		  "url": "https://d.apicloud.com/mcm/api/a1710a?filter=%7B%22where%22%3A%7B%7D%2C%22skip%22%3A0%2C%22limit%22%3A20%7D",
+		  "cache": false,
+		  "headers": {
+		    "X-APICloud-AppId": "A6931667122718",
+		    "X-APICloud-AppKey": appKey
+		  },
+		  "type": "GET"
+		}).success(function (data, status, header) {
+		  console.log(data);
+			if(data) {
+				var html = template("tpl-list", {data:data});
+				$("#content_list").html(html);
+			}
+		}).fail(function (header, status, errorThrown) {
+		  alert("error");
+		})
+	}
+	show_all();
+</script>
+</html>
